@@ -86,7 +86,7 @@ function App(props) {
     return (
       users.map((user, idx) => {
         return (
-          <Grid item key={idx} xs={6}>
+          <Grid item key={idx} sm={6}>
             <StatCard data={user.data} colors={user.colors} index={idx} removeCard={handleUserClose} loading={user.isLoading} />
           </Grid>
         )
