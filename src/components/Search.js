@@ -25,12 +25,18 @@ export default function Search(props) {
         }
     }
 
+    function getPlaceholder() {
+        if (platform === 'battle') return 'Search Battle.net...';
+        else if (platform === 'psn') return 'Search PlayStation Network...';
+        else return 'Search Xbox Live...';
+    }
+
     return (
         <TextField
             onChange={handleSearchChange}
             onKeyPress={checkForSubmit}
             InputProps={{
-                placeholder: "Search",
+                placeholder: getPlaceholder(),
                 startAdornment: (
                     <>
                         <InputAdornment>
