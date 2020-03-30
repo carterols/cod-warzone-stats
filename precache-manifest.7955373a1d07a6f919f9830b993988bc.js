@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6e9d69cf8a38cab341c1f0eae7a7bd25",
+    "revision": "dd4bef4514637fb495362b133de14690",
     "url": "/cod-warzone-stats/index.html"
   },
   {
