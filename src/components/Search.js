@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment } from '@material-ui/core'
-import SearchIcon from '@material-ui/icons/Search';
+import { TextField, InputAdornment, IconButton } from '@material-ui/core'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Icon from '@material-ui/core/Icon';
 import PSNIcon from '../icons/psn.svg';
 import XboxIcon from '../icons/xbox.svg';
@@ -12,7 +12,7 @@ export default function Search(props) {
     const [user, setUser] = useState('');
 
     const handleImgClick = (e) => {
-        setPlatform(e.target.getAttribute('data-value'));
+        setPlatform(e.currentTarget.firstChild.firstChild.firstChild.getAttribute('data-value'));
     };
 
     const handleSearchChange = (e) => {
@@ -32,43 +32,46 @@ export default function Search(props) {
             InputProps={{
                 placeholder: "Search",
                 startAdornment: (
-                    <InputAdornment position="start">
-                        <SearchIcon />
-                    </InputAdornment>
-                ),
-                endAdornment: (
                     <>
                         <InputAdornment>
-                            <Icon>
-                                <img 
-                                data-value='battle'
-                                src={BattleNetIcon}
-                                alt="Battle.net icon" 
-                                onClick={handleImgClick} 
-                                className={'icon-hoverable ' + (platform === 'battle' ? 'icon-selected' : '')} />
-                            </Icon>
+                            <IconButton color='inherit' onClick={handleImgClick} >
+                                <Icon>
+                                    <img 
+                                    data-value='battle'
+                                    src={BattleNetIcon}
+                                    alt="Battle.net icon" 
+                                    className={(platform === 'battle' ? 'icon-selected' : '')} />
+                                </Icon>
+                            </IconButton>
                         </InputAdornment>
                         <InputAdornment>
-                            <Icon>
-                                <img 
-                                data-value='psn' 
-                                src={PSNIcon}
-                                alt="PSN icon"
-                                onClick={handleImgClick} 
-                                className={'icon-hoverable ' + (platform === 'psn' ? 'icon-selected' : '')} />
-                            </Icon>
+                            <IconButton color='inherit' onClick={handleImgClick} >
+                                <Icon>
+                                    <img 
+                                    data-value='psn' 
+                                    src={PSNIcon}
+                                    alt="PSN icon"
+                                    className={(platform === 'psn' ? 'icon-selected' : '')} />
+                                </Icon>
+                            </IconButton>
                         </InputAdornment>
                         <InputAdornment>
-                            <Icon>
-                                <img 
-                                data-value='xbl'
-                                src={XboxIcon}
-                                alt="Xbox icon" 
-                                onClick={handleImgClick} 
-                                className={'icon-hoverable ' + (platform === 'xbl' ? 'icon-selected' : '')} />
-                            </Icon>
+                            <IconButton color='inherit' onClick={handleImgClick} >
+                                <Icon>
+                                    <img 
+                                    data-value='xbl'
+                                    src={XboxIcon}
+                                    alt="Xbox icon" 
+                                    className={(platform === 'xbl' ? 'icon-selected' : '')} />
+                                </Icon>
+                            </IconButton>
                         </InputAdornment>
                     </>
+                ),
+                endAdornment: (
+                    <IconButton color='primary' onClick={e => props.search(user, platform)}>
+                        <AddCircleOutlineIcon />
+                    </IconButton>
                 )
             }} 
             fullWidth={true} />

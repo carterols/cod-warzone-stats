@@ -1,31 +1,82 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Search from './components/Search';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, IconButton } from '@material-ui/core';
 import userService from './service/userService';
 import StatCard from './components/StatCard';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import './App.css';
 
+function getMax(value1, idx1, value2, idx2) {
+  if (value1 > value2) return idx1
+  else return idx2;
+}
+
+function getStatColors(idx, users) {
+  let colors = {};
+  let maxStats = {};
+
+  if (users.length < 2) {
+    Object.keys(users[idx]).forEach(key => {
+      colors[key] = 'none';
+    });
+
+    return colors;
+  }
+
+  for (let i = 0; i < users.length; i++) {
+    if (i !== idx) {
+      Object.keys(users[idx]).forEach(key => {
+        const maxIdx = getMax(users[idx][key], idx, users[i][key], i);
+        if (maxStats.hasOwnProperty(key) && users[maxIdx][key] > users[maxStats[key]][key]) {
+          maxStats[key] = maxIdx;
+        } else if (!maxStats.hasOwnProperty(key)) {
+          maxStats[key] = maxIdx;
+        }
+      })
+    }
+  }
+
+  Object.keys(maxStats).forEach(stat => {
+    if (maxStats[stat] !== idx) {
+      colors[stat] = 'error';
+    } else {
+      colors[stat] = 'primary';
+    }
+  });
+
+  return colors;
+}
+
 function App() {
-  const [searchResults, setSearchResults] = useState(null);
+  const [users, setUsers] = useState([]);
 
   const searchUser = async (user, platform) => {
     const results = await userService.getUser(user, platform);
     console.log(results);
-    setSearchResults(results.data.lifetime.mode.br.properties);  
+    let player = results.data.lifetime.mode.br.properties;
+    player['userName'] = results.data.username;
+    let players = [...users, player];
+    players = players.map((p, idx) => {
+      return {
+        ...p,
+        colors: getStatColors(idx, players)
+      }
+    })
+    setUsers(players);  
   }
 
   const renderSearchResults = () => {
     return (
-      Object.keys(searchResults).map((key) => {
+      users.map((user, idx) => {
         return (
-          <Grid item xs={4}>
-            <StatCard key={key} className="stat-card" title={key[0].toUpperCase() + key.slice(1)} stat={searchResults[key]} />
+          <Grid item xs={6}>
+            <StatCard data={user} />
           </Grid>
         )
       })
     );
-     
   }
 
   return (
@@ -34,7 +85,7 @@ function App() {
         <Container maxWidth="md">
           <Search search={searchUser} />
           <Grid container spacing={3} className="stats-container">
-            {searchResults ? renderSearchResults() : <div></div>}
+            {users.length > 0 ? renderSearchResults() : null}
           </Grid>
         </Container>
     </div>
