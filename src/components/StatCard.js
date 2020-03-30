@@ -1,14 +1,18 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Card, CardContent, makeStyles, Divider, Grid, Box } from '@material-ui/core';
+import { Card, CardContent, makeStyles, Divider, Grid, Box, IconButton } from '@material-ui/core';
 import '../App.css';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     ...theme.typography.button,
+  },
+  closeButton: {
+    marginLeft: 'auto'
   }
 }));
 
@@ -43,13 +47,10 @@ export default function StatCard(props) {
     gamesPlayed,
     scorePerMinute,
     cash,
-    deaths,
-    colors
+    deaths
   } = props.data;
 
-  function getTextColor(statName) {
-    return colors[statName];
-  }
+  const colors = props.colors;
 
   const renderArrowIcon = (stat) => {
     if (colors[stat] === 'none') {
@@ -64,9 +65,16 @@ export default function StatCard(props) {
       );
     }
   }
+ 
+  const closeCard = (e) => {
+    props.removeCard(props.index);
+  }
 
   return (
     <Card>
+      <IconButton onClick={closeCard}>
+        <CloseIcon />
+      </IconButton>
       <CardContent align='center'>
         <Typography align='center' className={classes.root} gutterBottom>
           {userName}

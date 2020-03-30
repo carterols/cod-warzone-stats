@@ -5,6 +5,8 @@ import App from './App';
 import { CssBaseline } from '@material-ui/core';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import * as serviceWorker from './serviceWorker';
+import { CookiesProvider } from 'react-cookie';
+
 const darkTheme = createMuiTheme({
   palette: {
     type: 'dark'
@@ -13,10 +15,12 @@ const darkTheme = createMuiTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <MuiThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <App />
-    </MuiThemeProvider>
+    <CookiesProvider>
+      <MuiThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <App />
+      </MuiThemeProvider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -7,6 +7,11 @@ export default {
         const uid = user.replace("#", "%23");
         const url = `${COD_API_BASE_URL + platform}/gamer/${uid}/profile/type/mp`;
         const res = await axios.get(url);
-        return res.data;
+
+        if (res.data.status !== 'error') {
+            return res.data;
+        } else {
+            return null;
+        }
     }
 }
