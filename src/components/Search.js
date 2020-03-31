@@ -136,6 +136,7 @@ export default function Search(props) {
             options={getSearchResults()}
             value={user}
             onInputChange={handleSearchChange}
+            autoComplete
             renderInput={renderTextField}
         />
     )

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Search from './components/Search';
-import { Container, Grid, IconButton, Snackbar } from '@material-ui/core';
+import { Container, Grid, LinearProgress, Snackbar } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import userService from './service/userService';
 import StatCard from './components/StatCard';
@@ -52,16 +52,16 @@ function getStatColors(idx, users) {
 function App(props) {
   const [users, setUsers] = useState([]);
   const [searchError, setSearchError] = useState(false);
+  const [loadingResults, setLoadingResults] = useState(false);
 
   const searchUser = async (user, platform) => {
-    let player = {
-      isLoading: true
-    };
+    let player = {};
+    setLoadingResults(true);
     const results = await userService.getUser(user, platform);
+    setLoadingResults(false);
     if (results) {
       player['data'] = results.data.lifetime.mode.br.properties;
       player['data']['userName'] = results.data.username;
-      player.isLoading = false;
       let players = [...users, player];
       players = players.map((p, idx) => {
         return {
@@ -72,7 +72,6 @@ function App(props) {
       setUsers(players);
       return true;
     } else {
-      player.isLoading = false;
       setSearchError(true);
       return false;
     }
@@ -94,6 +93,18 @@ function App(props) {
     );
   }
 
+  const renderProgressBar = () => {
+    if (loadingResults) {
+      return (
+        <Grid item sm={12}>
+          <LinearProgress color='primary'/>
+        </Grid>
+      );
+    } else {
+      return null;
+    }
+  }
+
   const handleAlertClose = () => {
     setSearchError(false);
   }
@@ -104,6 +115,7 @@ function App(props) {
       <Container maxWidth="md">
         <Search search={searchUser} cookies={props.cookies} />
         <Grid container spacing={3} className="stats-container">
+          {renderProgressBar()}
           {users.length > 0 ? renderSearchResults() : null}
         </Grid>
       </Container>
