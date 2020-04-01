@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/cod-warzone-stats/static/css/main.2960d50c.chunk.css",
-    "main.js": "/cod-warzone-stats/static/js/main.af5334a6.chunk.js",
-    "main.js.map": "/cod-warzone-stats/static/js/main.af5334a6.chunk.js.map",
+    "main.css": "/cod-warzone-stats/static/css/main.1090e978.chunk.css",
+    "main.js": "/cod-warzone-stats/static/js/main.fa4666ab.chunk.js",
+    "main.js.map": "/cod-warzone-stats/static/js/main.fa4666ab.chunk.js.map",
     "runtime-main.js": "/cod-warzone-stats/static/js/runtime-main.7d2e8644.js",
     "runtime-main.js.map": "/cod-warzone-stats/static/js/runtime-main.7d2e8644.js.map",
-    "static/js/2.924b828e.chunk.js": "/cod-warzone-stats/static/js/2.924b828e.chunk.js",
-    "static/js/2.924b828e.chunk.js.map": "/cod-warzone-stats/static/js/2.924b828e.chunk.js.map",
+    "static/js/2.22b8935f.chunk.js": "/cod-warzone-stats/static/js/2.22b8935f.chunk.js",
+    "static/js/2.22b8935f.chunk.js.map": "/cod-warzone-stats/static/js/2.22b8935f.chunk.js.map",
     "index.html": "/cod-warzone-stats/index.html",
-    "precache-manifest.e2b830eecacfe23931d927b9172dbb4f.js": "/cod-warzone-stats/precache-manifest.e2b830eecacfe23931d927b9172dbb4f.js",
+    "precache-manifest.1325dc433de894f55da2eaa52b4809db.js": "/cod-warzone-stats/precache-manifest.1325dc433de894f55da2eaa52b4809db.js",
     "service-worker.js": "/cod-warzone-stats/service-worker.js",
-    "static/css/main.2960d50c.chunk.css.map": "/cod-warzone-stats/static/css/main.2960d50c.chunk.css.map",
-    "static/js/2.924b828e.chunk.js.LICENSE.txt": "/cod-warzone-stats/static/js/2.924b828e.chunk.js.LICENSE.txt",
+    "static/css/main.1090e978.chunk.css.map": "/cod-warzone-stats/static/css/main.1090e978.chunk.css.map",
+    "static/js/2.22b8935f.chunk.js.LICENSE.txt": "/cod-warzone-stats/static/js/2.22b8935f.chunk.js.LICENSE.txt",
     "static/media/battle-net.svg": "/cod-warzone-stats/static/media/battle-net.355d0860.svg",
     "static/media/psn.svg": "/cod-warzone-stats/static/media/psn.70872efd.svg",
     "static/media/xbox.svg": "/cod-warzone-stats/static/media/xbox.faa28b5a.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.7d2e8644.js",
-    "static/js/2.924b828e.chunk.js",
-    "static/css/main.2960d50c.chunk.css",
-    "static/js/main.af5334a6.chunk.js"
+    "static/js/2.22b8935f.chunk.js",
+    "static/css/main.1090e978.chunk.css",
+    "static/js/main.fa4666ab.chunk.js"
   ]
 }
