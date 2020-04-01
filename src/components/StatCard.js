@@ -67,7 +67,7 @@ export default function StatCard(props) {
   }
  
   const closeCard = (e) => {
-    props.removeCard(props.index);
+    props.removeCard(userName);
   }
 
   return (

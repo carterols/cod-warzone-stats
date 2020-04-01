@@ -1,45 +1,61 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Search from './components/Search';
-import { Container, Grid, LinearProgress, Snackbar } from '@material-ui/core';
+import { Container, Grid, LinearProgress, Snackbar, Paper, Chip, makeStyles, Button } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import userService from './service/userService';
 import StatCard from './components/StatCard';
 import { withCookies } from 'react-cookie';
+import Leaderboards from './components/Leaderboards'
 import './App.css';
 
-function getMax(value1, idx1, value2, idx2) {
-  if (value1 > value2) return idx1
-  else return idx2;
-}
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'start',
+    flexWrap: 'wrap',
+    padding: theme.spacing(0.5),
+    marginBottom: '2rem'
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
+}));
 
-function getStatColors(idx, users) {
-  let colors = {};
+function getMaxStats(users) {
+  const userKeys = Object.keys(users);
   let maxStats = {};
 
-  if (users.length < 2) {
-    Object.keys(users[idx].data).forEach(key => {
+  if (userKeys.length < 2) {
+    return null;
+  }
+
+  userKeys.forEach(user => {
+    Object.keys(users[user].data).forEach(key => {
+      if (maxStats.hasOwnProperty(key) && users[user].data[key] > users[maxStats[key]].data[key]) {
+        maxStats[key] = user;
+      } else if (!maxStats.hasOwnProperty(key)) {
+        maxStats[key] = user;
+      }
+    })
+  });
+
+  return maxStats;
+}
+
+function getStatColors(user, maxStats) {
+  let colors = {};
+  // if there is 1 or less users
+  if (!maxStats) {
+    Object.keys(user.data).forEach(key => {
       colors[key] = 'none';
     });
 
     return colors;
   }
 
-  for (let i = 0; i < users.length; i++) {
-    if (i !== idx) {
-      Object.keys(users[idx].data).forEach(key => {
-        const maxIdx = getMax(users[idx].data[key], idx, users[i].data[key], i);
-        if (maxStats.hasOwnProperty(key) && users[maxIdx].data[key] > users[maxStats[key]].data[key]) {
-          maxStats[key] = maxIdx;
-        } else if (!maxStats.hasOwnProperty(key)) {
-          maxStats[key] = maxIdx;
-        }
-      })
-    }
-  }
-
   Object.keys(maxStats).forEach(stat => {
-    if (maxStats[stat] !== idx) {
+    if (maxStats[stat] !== user.data.userName) {
       colors[stat] = 'error';
     } else {
       colors[stat] = 'primary';
@@ -50,26 +66,70 @@ function getStatColors(idx, users) {
 }
 
 function App(props) {
-  const [users, setUsers] = useState([]);
+  const classes = useStyles();
+  const [visibleUsers, setVisibleUsers] = useState({});
   const [searchError, setSearchError] = useState(false);
   const [loadingResults, setLoadingResults] = useState(false);
+  const [allUsers, setAllUsers] = useState({});
 
   const searchUser = async (user, platform) => {
-    let player = {};
+    if (visibleUsers.hasOwnProperty(user)) {
+      return false;
+    }
+
     setLoadingResults(true);
     const results = await userService.getUser(user, platform);
-    setLoadingResults(false);
+    
     if (results) {
-      player['data'] = results.data.lifetime.mode.br.properties;
-      player['data']['userName'] = results.data.username;
-      let players = [...users, player];
-      players = players.map((p, idx) => {
-        return {
-          ...p,
-          colors: getStatColors(idx, players)
+      let player = {};
+      let newAllUsers = {};
+
+      player.data = results.data.lifetime.mode.br.properties;
+      player.data.kdRatio = parseFloat(player.data.kdRatio.toFixed(2));
+      player.data.avgKills = parseInt(Math.round(player.data.kills / player.data.gamesPlayed));
+      player.data.avgScore = parseInt(Math.round(player.data.score / player.data.gamesPlayed));
+      player.data.userName = results.data.username;
+      player.data.platform = platform;
+
+      let newVisibleUsers = {
+        ...visibleUsers
+      };
+
+      newVisibleUsers[player.data.userName] = player;
+      newAllUsers[player.data.userName] = player;
+
+      if (Object.keys(visibleUsers).length === 0) {
+        let friendsResults = await userService.getFriendsStats(user, platform);
+        if (friendsResults && friendsResults.status === 'success') {
+          friendsResults = friendsResults.data;
+          friendsResults = friendsResults.forEach(friend => {
+            if (friend.platform === 'uno') {
+              friend.platform = 'battle';
+            }
+            let data = friend.lifetime.mode.br.properties;
+            data.kdRatio = parseFloat(data.kdRatio.toFixed(2));
+            newAllUsers[friend.username] = {
+              data: {
+                ...data,
+                userName: friend.username,
+                avgKills: parseInt(Math.round(data.kills / data.gamesPlayed)),
+                avgScore: parseInt(Math.round(data.score / data.gamesPlayed)),
+                platform: friend.platform
+              }
+            }
+          });
         }
-      })
-      setUsers(players);
+      }
+
+      const maxStats = getMaxStats(visibleUsers);
+    
+      Object.keys(newVisibleUsers).forEach(p => {
+        newVisibleUsers[p].colors = getStatColors(newVisibleUsers[p], maxStats);
+      });
+
+      setLoadingResults(false);
+      setVisibleUsers(newVisibleUsers);
+      setAllUsers(newAllUsers);
       return true;
     } else {
       setSearchError(true);
@@ -77,29 +137,81 @@ function App(props) {
     }
   }
 
-  const handleUserClose = (idx) => {
-    setUsers(oldUsers => oldUsers.filter((_, index) => index !== idx));
+  const handleUserClose = (userName) => {
+    let newVisibleUsers = {
+      ...visibleUsers
+    };
+
+    delete newVisibleUsers[userName];
+    setVisibleUsers(newVisibleUsers);
   }
 
   const renderSearchResults = () => {
-    return (
-      users.map((user, idx) => {
-        return (
-          <Grid item key={idx} sm={6}>
-            <StatCard data={user.data} colors={user.colors} index={idx} removeCard={handleUserClose} loading={user.isLoading} />
-          </Grid>
-        )
-      })
-    );
+    if (Object.keys(visibleUsers).length > 0) {
+      return (
+        Object.keys(visibleUsers).map(user => {
+          return (
+            <Grid item key={user} sm={6}>
+              <StatCard data={visibleUsers[user].data} colors={visibleUsers[user].colors} removeCard={handleUserClose} />
+            </Grid>
+          )
+        })
+      );
+    }
+    return null;
+  }
+
+  const renderTags = () => {
+    if (Object.keys(visibleUsers).length > 0) {
+      return (
+        <Paper className={classes.root}>
+          {Object.keys(visibleUsers).map(user => {
+            return (
+              <Chip
+                key={user}
+                label={user}
+                onDelete={_ => handleUserClose(user)}
+                className={classes.chip} 
+              />
+            )
+          })}
+        </Paper>
+      )
+    }
+    return null;
   }
 
   const renderProgressBar = () => {
     if (loadingResults) {
       return (
         <Grid item sm={12}>
-          <LinearProgress color='primary'/>
+          <LinearProgress color='primary' />
         </Grid>
       );
+    } else {
+      return null;
+    }
+  }
+
+  function getRows() {
+    return Object.keys(allUsers).map(user => allUsers[user].data);
+  }
+
+  const changeSelected = (selectedUsers) => {
+    const maxStats = getMaxStats(selectedUsers);
+    Object.keys(selectedUsers).forEach(user => {
+      selectedUsers[user].colors = getStatColors(selectedUsers[user], maxStats);
+    });
+    setVisibleUsers(selectedUsers);
+  } 
+
+  const renderLeaderboards = () => {
+    if (Object.keys(allUsers).length > 1) {
+      return (
+        <Grid item sm={12} >
+          <Leaderboards data={getRows()} selected={visibleUsers} changeSelected={changeSelected} />
+        </Grid>
+      )
     } else {
       return null;
     }
@@ -112,11 +224,13 @@ function App(props) {
   return (
     <div>
       <Navbar />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
+        {renderTags()}
         <Search search={searchUser} cookies={props.cookies} />
         <Grid container spacing={3} className="stats-container">
           {renderProgressBar()}
-          {users.length > 0 ? renderSearchResults() : null}
+          {renderSearchResults()}
+          {renderLeaderboards()}
         </Grid>
       </Container>
 

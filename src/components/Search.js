@@ -12,7 +12,16 @@ const useStyles = makeStyles(theme => ({
     platformButton: {
         padding: '4px',
         marginRight: '2px'
-    }
+    },
+    root: {
+        display: 'flex',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        padding: theme.spacing(0.5),
+    },
+    chip: {
+        margin: theme.spacing(0.5),
+    },
 }));
 
 export default function Search(props) {
@@ -35,27 +44,30 @@ export default function Search(props) {
     };
 
     const handleSearchChange = (e, val) => {
-        setUser(val)
+        setUser(val);
     }
 
     const search = async () => {
+        if (!user || user.length === 0) return;
+
         const success = await props.search(user, platform);
+
         if (success) {
             let searches = props.cookies.get('search_history');
-            console.log(searches);
+
             if (!searches) {
                 searches = {};
             }
 
             if (!searches.hasOwnProperty(platform)) {
-            searches[platform] = {}
+                searches[platform] = {}
             }
             if (!searches[platform].hasOwnProperty(user.toLowerCase())) {
-            searches[platform][user.toLowerCase()] = user;
+                searches[platform][user.toLowerCase()] = user;
             }
-            props.cookies.set('search_history', JSON.stringify(searches))
-            
-        }   
+            // set cookies to expire in 1 year
+            props.cookies.set('search_history', JSON.stringify(searches), { path: '/', maxAge: 60 * 60 * 24 * 365 })
+        }
         setUser('');
     }
 
@@ -72,6 +84,7 @@ export default function Search(props) {
     }
 
     const renderTextField = (params) => {
+        params.inputProps.onKeyDown = checkForSubmit;
         return (
             <TextField
                 {...params}
@@ -81,43 +94,43 @@ export default function Search(props) {
                     placeholder: getPlaceholder(),
                     startAdornment: (
                         <>
-                            <InputAdornment style={{marginBottom: '5px'}}>
+                            <InputAdornment style={{ marginBottom: '5px' }}>
                                 <IconButton className={classes.platformButton} color='inherit' onClick={handleImgClick} >
                                     <Icon>
-                                        <img 
-                                        data-value='battle'
-                                        src={BattleNetIcon}
-                                        alt="Battle.net icon" 
-                                        className={(platform === 'battle' ? 'icon-selected' : '')} />
+                                        <img
+                                            data-value='battle'
+                                            src={BattleNetIcon}
+                                            alt="Battle.net icon"
+                                            className={(platform === 'battle' ? 'icon-selected' : '')} />
                                     </Icon>
                                 </IconButton>
                             </InputAdornment>
-                            <InputAdornment style={{marginBottom: '5px'}}>
+                            <InputAdornment style={{ marginBottom: '5px' }}>
                                 <IconButton className={classes.platformButton} color='inherit' onClick={handleImgClick} >
                                     <Icon>
-                                        <img 
-                                        data-value='psn' 
-                                        src={PSNIcon}
-                                        alt="PSN icon"
-                                        className={(platform === 'psn' ? 'icon-selected' : '')} />
+                                        <img
+                                            data-value='psn'
+                                            src={PSNIcon}
+                                            alt="PSN icon"
+                                            className={(platform === 'psn' ? 'icon-selected' : '')} />
                                     </Icon>
                                 </IconButton>
                             </InputAdornment>
-                            <InputAdornment style={{marginBottom: '5px'}}>
+                            <InputAdornment style={{ marginBottom: '5px' }}>
                                 <IconButton className={classes.platformButton} color='inherit' onClick={handleImgClick} >
                                     <Icon>
-                                        <img 
-                                        data-value='xbl'
-                                        src={XboxIcon}
-                                        alt="Xbox icon" 
-                                        className={(platform === 'xbl' ? 'icon-selected' : '')} />
+                                        <img
+                                            data-value='xbl'
+                                            src={XboxIcon}
+                                            alt="Xbox icon"
+                                            className={(platform === 'xbl' ? 'icon-selected' : '')} />
                                     </Icon>
                                 </IconButton>
                             </InputAdornment>
                         </>
                     ),
                     endAdornment: (
-                        <InputAdornment style={{marginBottom: '5px'}}>
+                        <InputAdornment style={{ marginBottom: '5px' }}>
                             <IconButton color='primary' onClick={e => search(user, platform)}>
                                 <AddCircleOutlineIcon />
                             </IconButton>
@@ -125,18 +138,21 @@ export default function Search(props) {
                     )
                 }}
                 fullWidth={true}
-                onKeyPress={checkForSubmit}
             />
         )
     }
 
     return (
+
         <Autocomplete
             freeSolo
             options={getSearchResults()}
+            getOptionLabel={option => option}
+            openOnFocus={false}
             value={user}
+            filterSelectedOptions
+            onChange={(e, newUser) => setUser(newUser)}
             onInputChange={handleSearchChange}
-            autoComplete
             renderInput={renderTextField}
         />
     )

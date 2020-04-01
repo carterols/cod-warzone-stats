@@ -7,6 +7,11 @@
   border-radius: 50%;
 }
 
+.row-selected {
+  background-color: rgba(63, 81, 181, 0.70) !important;
+
+}
+
 .icon-hoverable {
   cursor: pointer;
 }
