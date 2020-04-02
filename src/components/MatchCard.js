@@ -35,7 +35,7 @@ export default function MatchCard(props) {
     return (
         <Paper className={classes.container}>
             <Typography variant='h6' className={classes.date} color='textPrimary'>
-                {matchDate.toLocaleString()} - {getPlacementString(data.playerStats.teamPlacement)}
+                {matchDate.toLocaleString()} - {getPlacementString(data.playerStats.teamPlacement)} Place
             </Typography>
             <Grid container spacing={3}>
                 <Grid item sm={4}>
