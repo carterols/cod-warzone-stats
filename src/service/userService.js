@@ -25,5 +25,10 @@ export default {
         } else {
             return null;
         }
+    },
+    getRecentMatches: async (user, platform) => {
+        const uid = user.replace('#', '%23');
+        const res = await axios.get(`https://pacific-badlands-14289.herokuapp.com/matches/platform/${platform}/user/${uid}`);
+        return res.data;
     }
 }
