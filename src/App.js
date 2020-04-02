@@ -221,12 +221,18 @@ function App(props) {
     setSearchError(false);
   }
 
+  const getMatchStats = async (e) => {
+    const results = await userService.getRecentMatches('olsencar#1986', 'battle');
+    console.log(results);
+  }
+
   return (
     <div>
       <Navbar />
       <Container maxWidth="lg">
         {renderTags()}
         <Search search={searchUser} cookies={props.cookies} />
+        <Button onClick={getMatchStats}>Test</Button>
         <Grid container spacing={3} className="stats-container">
           {renderProgressBar()}
           {renderSearchResults()}
