@@ -92,6 +92,15 @@ function App(props) {
   const [recentMatches, setRecentMatches] = useState([]);
   const [tabSelected, setTabSelected] = useState(0);
 
+  useEffect(() => {
+    const lastSearchedUser = props.cookies.get('lastSearchedUser');
+
+    if (lastSearchedUser) {
+      searchUser(lastSearchedUser.userName, lastSearchedUser.platform);
+    }
+  }, [])
+
+
   const searchUser = async (user, platform) => {
     if (visibleUsers.hasOwnProperty(user)) {
       return false;
@@ -114,10 +123,8 @@ function App(props) {
       );
       player.data.userName = results.data.username;
       player.data.platform = platform;
-
-      let newVisibleUsers = {
-        ...visibleUsers
-      };
+      
+      let newVisibleUsers = {};
 
       newVisibleUsers[player.data.userName] = player;
       newAllUsers[player.data.userName] = player;
@@ -290,6 +297,7 @@ function App(props) {
           <Tabs
             value={tabSelected}
             onChange={handleTabChange}
+            variant='fullWidth'
             indicatorColor="primary"
             centered
           >

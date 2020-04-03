@@ -54,7 +54,12 @@ export default function Search(props) {
 
         if (success) {
             let searches = props.cookies.get('search_history');
-
+            
+            props.cookies.set('lastSearchedUser', JSON.stringify({
+                userName: user,
+                platform: platform
+            }), { path: '/', maxAge: 60 * 60 * 24 * 5 });
+            
             if (!searches) {
                 searches = {};
             }
