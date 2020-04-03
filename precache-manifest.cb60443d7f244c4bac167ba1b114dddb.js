@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e63a506b755389b6098d109c8e193b47",
+    "revision": "3e9a08e83bc2a6df8e3ceda21241a798",
     "url": "/cod-warzone-stats/index.html"
   },
   {
-    "revision": "084bc34d7b41262760bf",
+    "revision": "58ff64adc7a29e753b04",
     "url": "/cod-warzone-stats/static/css/main.1090e978.chunk.css"
   },
   {
-    "revision": "abf8c0402fecf781dc0f",
-    "url": "/cod-warzone-stats/static/js/2.22b8935f.chunk.js"
+    "revision": "7cb9f530a4766b8a2ce1",
+    "url": "/cod-warzone-stats/static/js/2.20be5dd0.chunk.js"
   },
   {
     "revision": "2bd07c3cd0f9b6661e94615603614d5a",
-    "url": "/cod-warzone-stats/static/js/2.22b8935f.chunk.js.LICENSE.txt"
+    "url": "/cod-warzone-stats/static/js/2.20be5dd0.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "084bc34d7b41262760bf",
-    "url": "/cod-warzone-stats/static/js/main.fa4666ab.chunk.js"
+    "revision": "58ff64adc7a29e753b04",
+    "url": "/cod-warzone-stats/static/js/main.b1f0e399.chunk.js"
   },
   {
     "revision": "ab523fb14d5591148891",
