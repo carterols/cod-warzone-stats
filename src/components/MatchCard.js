@@ -1,6 +1,7 @@
 import React from 'react';
-import { Paper, Typography, Box, makeStyles, Grid, Divider } from '@material-ui/core';
+import { Icon, Paper, Typography, Box, makeStyles, Grid, Divider } from '@material-ui/core';
 import '../App.css';
+import Trophy from '../icons/trophy.svg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,8 +12,18 @@ const useStyles = makeStyles((theme) => ({
     },
     topDivider: {
         marginBottom: theme.spacing(1)
+    },
+    firstPlacement: {
+        color: '#FFD700 !important'
+    },
+    fifthPlacement: {
+        color: '#D5D5D7 !important'
+    },
+    fifteenPlacement: {
+        color: '#DA9F65 !important'
     }
 }));
+
 
 function getPlacementString(placement) {
     let j = placement % 10, k = placement % 100;
@@ -35,14 +46,60 @@ export default function MatchCard(props) {
     const matchDate = new Date(data.utcStartSeconds * 1000);
     const matchDuration = Math.floor(data.playerStats.timePlayed / 60);
 
+    function getPlacementColor(placement) {
+        if (placement === 1) {
+            return classes.firstPlacement;
+        } else if (placement <= 5) {
+            return classes.fifthPlacement;
+        } else if (placement <= 15) {
+            return classes.fifteenPlacement;
+        } else {
+            return null;
+        }
+    }
+
+    function getTrophy(placement) {
+        let placementColor = '';
+        if (placement === 1) {
+            placementColor = 'first-placement-svg';
+        } else if (placement <= 5) {
+            placementColor = 'fifth-placement-svg';
+        } else if (placement <= 15) {
+            placementColor = 'fifteen-placement-svg';
+        }
+        if (placement <= 15) {
+            return (
+                <Icon fontSize='inherit'>
+                    <img
+                        data-value='battle'
+                        src={Trophy}
+                        alt="Battle.net icon"
+                        className={placementColor}
+                    />
+                </Icon>
+            )
+        }
+    }
+
     return (
         <Paper className={classes.container}>
-            <Typography variant='h6' className={classes.date} color='textPrimary'>
-                {matchDate.toLocaleString()} | {getPlacementString(data.playerStats.teamPlacement)} PLACE | {matchDuration} MINUTES
-            </Typography>
-            <Divider className={classes.topDivider} />
             <Grid container justify='center' alignItems='center' spacing={3}>
-                <Grid item cem sm={3}>
+                <Grid item xs={6}>
+                    <Typography variant='h6' align='left' color='textPrimary'>
+                        {matchDate.toLocaleString()}
+                    </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography variant='h6' align='right' className={getPlacementColor(data.playerStats.teamPlacement)}>
+                        {getTrophy(data.playerStats.teamPlacement)}
+                        &nbsp;
+                        {getPlacementString(data.playerStats.teamPlacement)} PLACE
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Divider />
+                </Grid>
+                <Grid item sm={3}>
                     <Box className='circle' margin={2}>
                         <Typography align='center' variant="h5">
                             {parseFloat(data.playerStats.kdRatio).toFixed(2)}

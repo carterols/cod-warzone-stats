@@ -32,3 +32,15 @@
   justify-content: center;
   align-items: center;
 }
+
+.first-placement-svg {
+  filter: invert(85%) sepia(14%) saturate(6951%) hue-rotate(1deg) brightness(105%) contrast(105%);
+}
+
+.fifth-placement-svg {
+  filter: invert(98%) sepia(1%) saturate(355%) hue-rotate(200deg) brightness(89%) contrast(90%);
+}
+
+.fifteen-placement-svg {
+  filter: invert(69%) sepia(52%) saturate(372%) hue-rotate(347deg) brightness(87%) contrast(96%);
+}
