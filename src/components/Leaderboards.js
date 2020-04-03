@@ -284,6 +284,7 @@ export default function EnhancedTable(props) {
                           onClick={event => handleClick(event, row)}
                           role="checkbox"
                           aria-checked={isItemSelected}
+                          key={index}
                           tabIndex={-1}
                           className={isItemSelected ? 'row-selected' : null}
                           selected={isItemSelected}

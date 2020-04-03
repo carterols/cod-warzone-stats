@@ -83,6 +83,11 @@ function getStatColors(user, maxStats) {
   return colors;
 }
 
+function getTeamStats(teams, teamName) {
+  const pos = teams.map(team => team.name).indexOf(teamName);
+  return teams[pos];
+}
+
 function App(props) {
   const classes = useStyles();
   const [visibleUsers, setVisibleUsers] = useState({});
@@ -130,7 +135,14 @@ function App(props) {
       newAllUsers[player.data.userName] = player;
 
       let matches = await userService.getRecentMatches(user, platform);
-      matches = matches.matches;
+      matches = matches.matches.map(match => ({
+        utcStartSeconds: match.utcStartSeconds,
+        playerCount: match.playerCount,
+        player: match.player,
+        playerStats: match.playerStats,
+        teamCount: match.teamCount,
+        teamStats: getTeamStats(match.rankedTeams, match.player.team)
+      }));
       setRecentMatches(matches);
 
       let friendsResults = await userService.getFriendsStats(user, platform);
