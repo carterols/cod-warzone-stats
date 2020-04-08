@@ -29,7 +29,7 @@ function displayTimePlayed(seconds) {
   return `${days} days, ${hours} hours, ${minutes} minutes, ${leftOverSeconds} seconds`;
 }
 
-export default function StatCard(props) {
+export default function UserCard(props) {
   const classes = useStyles();
   const {
     userName,

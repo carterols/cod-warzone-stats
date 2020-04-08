@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import userService from "./service/userService";
-import StatCard from "./components/StatCard";
+import UserCard from "./components/UserCard";
 import { withCookies } from "react-cookie";
 import Leaderboards from "./components/Leaderboards";
 import MatchCard from "./components/MatchCard";
@@ -197,7 +197,7 @@ function App(props) {
       return Object.keys(visibleUsers).map(user => {
         return (
           <Grid item hidden={index !== tabSelected} key={user} sm={6}>
-            <StatCard
+            <UserCard
               data={visibleUsers[user].data}
               colors={visibleUsers[user].colors}
               removeCard={handleUserClose}
