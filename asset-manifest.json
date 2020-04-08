@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/cod-warzone-stats/static/css/main.020f5866.chunk.css",
-    "main.js": "/cod-warzone-stats/static/js/main.b81cc318.chunk.js",
-    "main.js.map": "/cod-warzone-stats/static/js/main.b81cc318.chunk.js.map",
+    "main.js": "/cod-warzone-stats/static/js/main.7d6375e7.chunk.js",
+    "main.js.map": "/cod-warzone-stats/static/js/main.7d6375e7.chunk.js.map",
     "runtime-main.js": "/cod-warzone-stats/static/js/runtime-main.7d2e8644.js",
     "runtime-main.js.map": "/cod-warzone-stats/static/js/runtime-main.7d2e8644.js.map",
     "static/js/2.d5cf3340.chunk.js": "/cod-warzone-stats/static/js/2.d5cf3340.chunk.js",
     "static/js/2.d5cf3340.chunk.js.map": "/cod-warzone-stats/static/js/2.d5cf3340.chunk.js.map",
     "index.html": "/cod-warzone-stats/index.html",
-    "precache-manifest.de420ce7da547d9548faef321b825fb0.js": "/cod-warzone-stats/precache-manifest.de420ce7da547d9548faef321b825fb0.js",
+    "precache-manifest.076dd5bf5447fdbb68cce41418559c7c.js": "/cod-warzone-stats/precache-manifest.076dd5bf5447fdbb68cce41418559c7c.js",
     "service-worker.js": "/cod-warzone-stats/service-worker.js",
     "static/css/main.020f5866.chunk.css.map": "/cod-warzone-stats/static/css/main.020f5866.chunk.css.map",
     "static/js/2.d5cf3340.chunk.js.LICENSE.txt": "/cod-warzone-stats/static/js/2.d5cf3340.chunk.js.LICENSE.txt",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.7d2e8644.js",
     "static/js/2.d5cf3340.chunk.js",
     "static/css/main.020f5866.chunk.css",
-    "static/js/main.b81cc318.chunk.js"
+    "static/js/main.7d6375e7.chunk.js"
   ]
 }
