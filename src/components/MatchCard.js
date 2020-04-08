@@ -109,9 +109,9 @@ export default function MatchCard(props) {
                         </Typography>
                     </Box>
                 </Grid>
-                {data.teamStats.players.map((player) => {
+                {data.teamStats.players.map((player, idx) => {
                     return (
-                        <Grid item sm={3}>
+                        <Grid item key={idx} sm={3}>
                             <Typography align='left' variant="h5" className={classes.root} color={player.username === data.player.username ? 'primary' : 'textSecondary'}>
                                 {player.username}
                             </Typography>
