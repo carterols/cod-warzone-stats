@@ -40,11 +40,26 @@ function getPlacementString(placement) {
     return placement + "TH";
 }
 
+function getColumnWidth(numPlayers) {
+    switch (numPlayers) {
+        case 4:
+            return 2;
+        case 3:
+            return 3;
+        case 2:
+            return 4;
+        default:
+            return 6;
+    }
+}
+
 export default function MatchCard(props) {
     const classes = useStyles();
     const data = props.data;
     const matchDate = new Date(data.utcStartSeconds * 1000);
     const matchDuration = Math.floor(data.playerStats.timePlayed / 60);
+    const columnWidth = getColumnWidth(data.teamStats.players.length);
+
 
     function getPlacementColor(placement) {
         if (placement === 1) {
@@ -99,7 +114,7 @@ export default function MatchCard(props) {
                 <Grid item xs={12}>
                     <Divider />
                 </Grid>
-                <Grid item sm={3}>
+                <Grid item sm>
                     <Box className='circle' margin={2}>
                         <Typography align='center' variant="h5">
                             {parseFloat(data.playerStats.kdRatio).toFixed(2)}
@@ -111,7 +126,7 @@ export default function MatchCard(props) {
                 </Grid>
                 {data.teamStats.players.map((player, idx) => {
                     return (
-                        <Grid item key={idx} sm={3}>
+                        <Grid item key={idx} sm={columnWidth}>
                             <Typography align='left' variant="h5" className={classes.root} color={player.username === data.player.username ? 'primary' : 'textSecondary'}>
                                 {player.username}
                             </Typography>

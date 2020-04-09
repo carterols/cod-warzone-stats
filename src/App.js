@@ -143,7 +143,7 @@ function App(props) {
         playerStats: match.playerStats,
         teamCount: match.teamCount,
         teamStats: getTeamStats(match.rankedTeams, match.player.team)
-      })).filter(match => match.teamStats !== undefined && match.mode === 'br_25');
+      })).filter(match => match.teamStats !== undefined && (match.mode === 'br_89' || match.mode === 'br_25' ));
       setRecentMatches(matches);
 
       let friendsResults = await userService.getFriendsStats(user, platform);
