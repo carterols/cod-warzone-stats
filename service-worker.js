@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/cod-warzone-stats/precache-manifest.49260830d6373329258503825bc6904f.js"
+  "/cod-warzone-stats/precache-manifest.ac40b53ae33490a1a820474b398e06eb.js"
 );
 
 self.addEventListener('message', (event) => {
