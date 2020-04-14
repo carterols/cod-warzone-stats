@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/cod-warzone-stats/static/css/main.c5d79760.chunk.css",
-    "main.js": "/cod-warzone-stats/static/js/main.c4aab848.chunk.js",
-    "main.js.map": "/cod-warzone-stats/static/js/main.c4aab848.chunk.js.map",
+    "main.css": "/cod-warzone-stats/static/css/main.020f5866.chunk.css",
+    "main.js": "/cod-warzone-stats/static/js/main.39700b2e.chunk.js",
+    "main.js.map": "/cod-warzone-stats/static/js/main.39700b2e.chunk.js.map",
     "runtime-main.js": "/cod-warzone-stats/static/js/runtime-main.7d2e8644.js",
     "runtime-main.js.map": "/cod-warzone-stats/static/js/runtime-main.7d2e8644.js.map",
     "static/js/2.d5cf3340.chunk.js": "/cod-warzone-stats/static/js/2.d5cf3340.chunk.js",
     "static/js/2.d5cf3340.chunk.js.map": "/cod-warzone-stats/static/js/2.d5cf3340.chunk.js.map",
     "index.html": "/cod-warzone-stats/index.html",
-    "precache-manifest.ac40b53ae33490a1a820474b398e06eb.js": "/cod-warzone-stats/precache-manifest.ac40b53ae33490a1a820474b398e06eb.js",
+    "precache-manifest.146f0de9c98db47b6d1fea373a92564f.js": "/cod-warzone-stats/precache-manifest.146f0de9c98db47b6d1fea373a92564f.js",
     "service-worker.js": "/cod-warzone-stats/service-worker.js",
-    "static/css/main.c5d79760.chunk.css.map": "/cod-warzone-stats/static/css/main.c5d79760.chunk.css.map",
+    "static/css/main.020f5866.chunk.css.map": "/cod-warzone-stats/static/css/main.020f5866.chunk.css.map",
     "static/js/2.d5cf3340.chunk.js.LICENSE.txt": "/cod-warzone-stats/static/js/2.d5cf3340.chunk.js.LICENSE.txt",
     "static/media/battle-net.svg": "/cod-warzone-stats/static/media/battle-net.355d0860.svg",
     "static/media/psn.svg": "/cod-warzone-stats/static/media/psn.70872efd.svg",
@@ -20,7 +20,7 @@
   "entrypoints": [
     "static/js/runtime-main.7d2e8644.js",
     "static/js/2.d5cf3340.chunk.js",
-    "static/css/main.c5d79760.chunk.css",
-    "static/js/main.c4aab848.chunk.js"
+    "static/css/main.020f5866.chunk.css",
+    "static/js/main.39700b2e.chunk.js"
   ]
 }
