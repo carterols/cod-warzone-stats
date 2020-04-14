@@ -21,6 +21,15 @@ const useStyles = makeStyles((theme) => ({
     },
     fifteenPlacement: {
         color: '#DA9F65 !important'
+    },
+    kdColumn: {
+        textAlign: 'center'
+    },
+    centerCircle: {
+        marginTop: '16px',
+        marginBottom: '16px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
     }
 }));
 
@@ -40,11 +49,34 @@ function getPlacementString(placement) {
     return placement + "TH";
 }
 
+function getColumnWidth(numPlayers) {
+    switch (numPlayers) {
+        case 4:
+            return 2;
+        case 3:
+            return 3;
+        case 2:
+            return 4;
+        default:
+            return 6;
+    }
+}
+
+function getTeamKills(players) {
+    let kills = 0;
+    players.forEach((player) => {
+        kills += player.playerStats.kills;
+    });
+    return kills;
+}
+
 export default function MatchCard(props) {
     const classes = useStyles();
     const data = props.data;
     const matchDate = new Date(data.utcStartSeconds * 1000);
     const matchDuration = Math.floor(data.playerStats.timePlayed / 60);
+    const columnWidth = getColumnWidth(data.teamStats.players.length);
+    const teamKills = getTeamKills(data.teamStats.players);
 
     function getPlacementColor(placement) {
         if (placement === 1) {
@@ -83,7 +115,7 @@ export default function MatchCard(props) {
 
     return (
         <Paper className={classes.container}>
-            <Grid container justify='center' alignItems='center' spacing={3}>
+            <Grid container justify='center' spacing={3} wrap='wrap'>
                 <Grid item xs={6}>
                     <Typography variant='h6' align='left' color='textPrimary'>
                         {matchDate.toLocaleString()}
@@ -99,8 +131,11 @@ export default function MatchCard(props) {
                 <Grid item xs={12}>
                     <Divider />
                 </Grid>
-                <Grid item sm={3}>
-                    <Box className='circle' margin={2}>
+                <Grid item xs={12} sm>
+                    <Typography align='center' variant="h5" className={classes.root}>
+                        KILLS: {teamKills} 
+                    </Typography>
+                    <Box className={'circle ' + classes.centerCircle}>
                         <Typography align='center' variant="h5">
                             {parseFloat(data.playerStats.kdRatio).toFixed(2)}
                             <Typography align='center' variant="h5" className={classes.root}>
@@ -111,7 +146,7 @@ export default function MatchCard(props) {
                 </Grid>
                 {data.teamStats.players.map((player, idx) => {
                     return (
-                        <Grid item key={idx} sm={3}>
+                        <Grid item key={idx} xs={6} sm>
                             <Typography align='left' variant="h5" className={classes.root} color={player.username === data.player.username ? 'primary' : 'textSecondary'}>
                                 {player.username}
                             </Typography>
