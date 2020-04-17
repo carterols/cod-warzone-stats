@@ -6,28 +6,35 @@ export default {
     getUser: async (user, platform) => {
         const uid = user.replace("#", "%23");
         const url = `${COD_API_BASE_URL}/stats/platform/${platform}/gamer/${uid}/profile`;
-        const res = await axios.get(url);
 
-        if (res.data.status !== 'error') {
+        try {
+            const res = await axios.get(url);
             return res.data;
-        } else {
+        } catch (err) {
+            console.log(err);
             return null;
         }
     },
     getFriendsStats: async (user, platform) => {
         const uid = user.replace("#", "%23");
         const url = `${COD_API_BASE_URL}/stats/platform/${platform}/gamer/${uid}/friends`;
-        const res = await axios.get(url);
-
-        if (res.data.status !== 'error') {
+        try {
+            const res = await axios.get(url);
             return res.data;
-        } else {
+        } catch (err) {
+            console.log(err);
             return null;
         }
     },
     getRecentMatches: async (user, platform) => {
         const uid = user.replace('#', '%23');
-        const res = await axios.get(`${COD_API_BASE_URL}/matches/platform/${platform}/user/${uid}`);
-        return res.data;
+        const url = `${COD_API_BASE_URL}/matches/platform/${platform}/user/${uid}`;
+        try {
+            const res = await axios.get(url);
+            return res.data;
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
     }
 }

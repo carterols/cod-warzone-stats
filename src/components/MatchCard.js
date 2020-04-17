@@ -138,9 +138,9 @@ export default function MatchCard(props) {
                     <Box className={'circle ' + classes.centerCircle}>
                         <Typography align='center' variant="h5">
                             {parseFloat(data.playerStats.kdRatio).toFixed(2)}
-                            <Typography align='center' variant="h5" className={classes.root}>
+                        </Typography>
+                        <Typography align='center' variant="h5" className={classes.root}>
                             K/D Ratio
-                            </Typography>
                         </Typography>
                     </Box>
                 </Grid>

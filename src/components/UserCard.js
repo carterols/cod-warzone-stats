@@ -80,12 +80,12 @@ export default function UserCard(props) {
           {userName}
         </Typography>
         <Box className='circle' margin={2}>
-          <Typography align='center' variant="h5">
+          <Typography variant="h5">
             {renderArrowIcon('kdRatio')}
             {parseFloat(kdRatio).toFixed(2)}
-            <Typography align='center' variant="h5" className={classes.root}>
-              K/D Ratio
-            </Typography>
+          </Typography>
+          <Typography variant="h5" className={classes.root}>
+            K/D Ratio
           </Typography>
         </Box>
         <Divider />

@@ -116,9 +116,9 @@ function App(props) {
 
     if (results) {
       let player = {};
-      let newAllUsers = {};
+      // let newAllUsers = {};
 
-      player.data = results.data.lifetime.mode.br.properties;
+      player.data = results.lifetime.mode.br.properties;
       player.data.kdRatio = parseFloat(player.data.kdRatio.toFixed(2));
       player.data.avgKills = parseInt(
         Math.round(player.data.kills / player.data.gamesPlayed)
@@ -126,48 +126,50 @@ function App(props) {
       player.data.avgScore = parseInt(
         Math.round(player.data.score / player.data.gamesPlayed)
       );
-      player.data.userName = results.data.username;
+      player.data.userName = results.username;
       player.data.platform = platform;
       
-      let newVisibleUsers = {};
-
+      let newVisibleUsers = {...visibleUsers};
+      
       newVisibleUsers[player.data.userName] = player;
-      newAllUsers[player.data.userName] = player;
-
-      let matches = await userService.getRecentMatches(user, platform);
-      matches = matches.matches.map(match => ({
-        utcStartSeconds: match.utcStartSeconds,
-        playerCount: match.playerCount,
-        player: match.player,
-        mode: match.mode,
-        playerStats: match.playerStats,
-        teamCount: match.teamCount,
-        teamStats: getTeamStats(match.rankedTeams, match.player.team)
-      })).filter(match => match.teamStats !== undefined && (match.mode === 'br_89' || match.mode === 'br_25' ));
-      setRecentMatches(matches);
-
-      let friendsResults = await userService.getFriendsStats(user, platform);
-      if (friendsResults && friendsResults.status === "success") {
-        friendsResults = friendsResults.data;
-        friendsResults = friendsResults.forEach(friend => {
-          if (friend.platform === "uno") {
-            friend.platform = "battle";
-          }
-          let data = friend.lifetime.mode.br.properties;
-          data.kdRatio = parseFloat(data.kdRatio.toFixed(2));
-          newAllUsers[friend.username] = {
-            data: {
-              ...data,
-              userName: friend.username,
-              avgKills: parseInt(Math.round(data.kills / data.gamesPlayed)),
-              avgScore: parseInt(Math.round(data.score / data.gamesPlayed)),
-              platform: friend.platform
-            }
-          };
-        });
+      // newAllUsers[player.data.userName] = player;
+      
+      if (Object.keys(newVisibleUsers).length === 1) {
+        let matches = await userService.getRecentMatches(user, platform);
+        matches = matches.matches.map(match => ({
+          utcStartSeconds: match.utcStartSeconds,
+          playerCount: match.playerCount,
+          player: match.player,
+          mode: match.mode,
+          playerStats: match.playerStats,
+          teamCount: match.teamCount,
+          teamStats: getTeamStats(match.rankedTeams, match.player.team)
+        })).filter(match => match.teamStats !== undefined && (match.mode === 'br_89' || match.mode === 'br_25' ));
+        setRecentMatches(matches);
       }
 
-      const maxStats = getMaxStats(visibleUsers);
+      // let friendsResults = await userService.getFriendsStats(user, platform);
+      // if (friendsResults && friendsResults.status === "success") {
+      //   friendsResults = friendsResults.data;
+      //   friendsResults = friendsResults.forEach(friend => {
+      //     if (friend.platform === "uno") {
+      //       friend.platform = "battle";
+      //     }
+      //     let data = friend.lifetime.mode.br.properties;
+      //     data.kdRatio = parseFloat(data.kdRatio.toFixed(2));
+      //     newAllUsers[friend.username] = {
+      //       data: {
+      //         ...data,
+      //         userName: friend.username,
+      //         avgKills: parseInt(Math.round(data.kills / data.gamesPlayed)),
+      //         avgScore: parseInt(Math.round(data.score / data.gamesPlayed)),
+      //         platform: friend.platform
+      //       }
+      //     };
+      //   });
+      // }
+
+      const maxStats = getMaxStats(newVisibleUsers);
 
       Object.keys(newVisibleUsers).forEach(p => {
         newVisibleUsers[p].colors = getStatColors(newVisibleUsers[p], maxStats);
@@ -175,10 +177,11 @@ function App(props) {
 
       setLoadingResults(false);
       setVisibleUsers(newVisibleUsers);
-      setAllUsers(newAllUsers);
+      // setAllUsers(newAllUsers);
       return true;
     } else {
       setSearchError(true);
+      setLoadingResults(false);
       return false;
     }
   };
@@ -189,6 +192,13 @@ function App(props) {
     };
 
     delete newVisibleUsers[userName];
+
+    const maxStats = getMaxStats(newVisibleUsers);
+
+    Object.keys(newVisibleUsers).forEach(p => {
+      newVisibleUsers[p].colors = getStatColors(newVisibleUsers[p], maxStats);
+    });
+
     setVisibleUsers(newVisibleUsers);
   };
 
@@ -297,8 +307,7 @@ function App(props) {
   const renderMainStats = index => {
     return (
       <Grid container spacing={3} className="stats-container">
-        
-        {renderSearchResults(index)} {renderLeaderboards(index)}
+        {renderSearchResults(index)}
       </Grid>
     );
   };
@@ -324,7 +333,7 @@ function App(props) {
   };
 
   return (
-    <div>
+    <>
       <Navbar />
       <Container maxWidth="lg">
         
@@ -345,7 +354,7 @@ function App(props) {
           The username you entered was invalid.
         </Alert>
       </Snackbar>
-    </div>
+    </>
   );
 }
 
